@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ご来店は初めてですか？</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 40px;
+      background-color: #f9f9f9;
+    }
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    button {
+      font-size: 18px;
+      padding: 15px 30px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h2>ご来店は初めてですか？</h2>
+  <button onclick="submitVisit('first')">はい、初めてです</button>
+  <button onclick="submitVisit('repeat')">いいえ、リピートです</button>
+
+  <script>
+    function submitVisit(status) {
+      const params = new URLSearchParams(window.location.search);
+      const next = params.get('next') || 'https://google.com';
+      const logUrl = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"
+        + "?status=" + encodeURIComponent(status)
+        + "&ua=" + encodeURIComponent(navigator.userAgent)
+        + "&redirect=" + encodeURIComponent(next);
+
+      fetch(logUrl).then(() => {
+        window.location.href = next;
+      });
+    }
+  </script>
+</body>
+</html>
