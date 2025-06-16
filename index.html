@@ -31,15 +31,15 @@
   </style>
 </head>
 <body>
-  <h2>ご来店は初めてですか？</h2>
-  <button onclick="submitVisit('first')">はい、初めてです</button>
-  <button onclick="submitVisit('repeat')">いいえ、リピートです</button>
+  <h2>初めてのご来店ですか？</h2>
+  <button onclick="submitVisit('first')">はい</button>
+  <button onclick="submitVisit('repeat')">いいえ</button>
 
   <script>
     function submitVisit(status) {
       const params = new URLSearchParams(window.location.search);
       const next = params.get('next') || 'https://google.com';
-      const logUrl = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"
+      const logUrl = "https://script.google.com/macros/s/AKfycbxcREhPtPtHCtkT3kH2pVH0nUyRgx8FNwdgf52wLBa7FKPx7SmJv2-dTyigmkG0f_pIMA/exec"
         + "?status=" + encodeURIComponent(status)
         + "&ua=" + encodeURIComponent(navigator.userAgent)
         + "&redirect=" + encodeURIComponent(next);
