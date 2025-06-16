@@ -35,19 +35,35 @@
   <button onclick="submitVisit('first')">はい</button>
   <button onclick="submitVisit('repeat')">いいえ</button>
 
-  <script>
-    function submitVisit(status) {
-      const params = new URLSearchParams(window.location.search);
-      const next = params.get('next') || 'https://google.com';
-      const logUrl = "https://script.google.com/macros/s/AKfycbxcREhPtPtHCtkT3kH2pVH0nUyRgx8FNwdgf52wLBa7FKPx7SmJv2-dTyigmkG0f_pIMA/exec"
-        + "?status=" + encodeURIComponent(status)
-        + "&ua=" + encodeURIComponent(navigator.userAgent)
-        + "&redirect=" + encodeURIComponent(next);
+ <script>
+  window.onload = function () {
+    const hasAnswered = localStorage.getItem("repeatcheck_visited");
+    const params = new URLSearchParams(window.location.search);
+    const next = params.get("next") || "https://google.com";
 
-      fetch(logUrl).then(() => {
-        window.location.href = next;
-      });
+    if (hasAnswered === "true") {
+      // すでに回答済み → 質問スキップ
+      window.location.href = next;
     }
-  </script>
+  };
+
+  function submitVisit(status) {
+    const params = new URLSearchParams(window.location.search);
+    const next = params.get("next") || "https://google.com";
+
+    const logUrl = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"
+      + "?status=" + encodeURIComponent(status)
+      + "&ua=" + encodeURIComponent(navigator.userAgent)
+      + "&redirect=" + encodeURIComponent(next);
+
+    // 回答済みフラグ保存（ブラウザに残る）
+    localStorage.setItem("repeatcheck_visited", "true");
+
+    // ログ送信してリダイレクト
+    fetch(logUrl).then(() => {
+      window.location.href = next;
+    });
+  }
+</script>
 </body>
 </html>
